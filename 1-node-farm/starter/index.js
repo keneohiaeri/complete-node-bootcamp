@@ -2,9 +2,11 @@ const fs = require('fs');
 const http = require('http');
 const url = require('url');
 
+const slugify = require('slugify');
+
 const replaceTemplate = require('./modules/replaceTemplate');
 
-//Server
+//Variables Declaration
 const tempOverview = fs.readFileSync('./templates/overview.html', 'utf-8');
 const tempCard = fs.readFileSync('./templates/cards.html', 'utf-8');
 const tempProduct = fs.readFileSync('./templates/product.html', 'utf-8');
@@ -12,6 +14,10 @@ const tempProduct = fs.readFileSync('./templates/product.html', 'utf-8');
 const data = fs.readFileSync('./dev-data/data.json', 'utf-8');
 const dataObj = JSON.parse(data);
 
+const slugs = dataObj.map(el => slugify(el.productName, {lower: true}))
+console.log(slugs);
+
+//Create Server
 const server = http.createServer((req, res) => {
     // console.log(req.url);
     // console.log(url.parse(req.url, true));
